@@ -1,0 +1,113 @@
+/* ── Clickable month bars on the Overview chart ── */
+.col.clickable { cursor: pointer; }
+.col.clickable:hover i { filter: brightness(1.15); }
+.col.clickable:focus-visible { outline: 2px solid #2f6f4f; outline-offset: 2px; }
+.col.on i { outline: 2px solid #2f6f4f; outline-offset: 1px; }
+
+/* ── Drill-down panel. Self-contained: does not depend on your other CSS. ── */
+.md-overlay {
+  --ink: #1d2723; --mute: #5f6b66; --line: #e3e9e5; --soft: #f5f8f6;
+  --accent: #2f6f4f; --good: #2f6f4f; --warn: #b45309; --bad: #b42318; --info: #2b5f8a;
+  position: fixed; inset: 0; z-index: 50; display: flex; justify-content: flex-end;
+  background: rgba(15, 23, 20, .45);
+}
+.md-panel {
+  box-sizing: border-box; width: min(1120px, 100vw); height: 100%; overflow-y: auto;
+  background: #fff; color: var(--ink); padding: 24px 28px 40px;
+  box-shadow: -8px 0 30px rgba(0, 0, 0, .2); font-size: 14px; line-height: 1.5;
+  animation: md-in .18s ease-out;
+}
+.md-panel *, .md-panel *::before, .md-panel *::after { box-sizing: border-box; }
+@keyframes md-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .md-panel { animation: none; } }
+
+/* header */
+.md-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+.md-nav { display: flex; align-items: center; gap: 10px; }
+.md-nav h2 { margin: 0; font-size: 24px; min-width: 190px; text-align: center; }
+.md-nav button, .md-close {
+  border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 8px;
+  padding: 6px 12px; font: inherit; cursor: pointer;
+}
+.md-nav button { font-size: 20px; line-height: 1; padding: 4px 12px; }
+.md-nav button:hover:not(:disabled), .md-close:hover { background: var(--soft); }
+.md-nav button:disabled { opacity: .35; cursor: not-allowed; }
+.md-panel button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.md-headline { font-size: 16px; margin: 0 0 16px; max-width: 80ch; }
+.md-note { color: var(--mute); font-size: 12px; margin: 8px 0 0; }
+.md-loading, .md-empty { color: var(--mute); padding: 16px 0; }
+.md-error { background: #fdeceb; border: 1px solid #f3b8b3; color: var(--bad); padding: 12px 14px; border-radius: 8px; }
+
+/* stat cards */
+.md-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 720px) { .md-stats { grid-template-columns: repeat(2, 1fr); } }
+.md-stat { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.md-stat p { margin: 0; color: var(--mute); font-size: 12px; }
+.md-stat strong { display: block; font-size: 22px; margin: 2px 0; }
+.md-stat span { display: block; color: var(--mute); font-size: 12px; }
+.md-delta { display: block; margin-top: 4px; font-size: 12px; font-weight: 600; }
+.md-delta.good { color: var(--good); }
+.md-delta.bad { color: var(--bad); }
+.md-delta.flat { color: var(--mute); font-weight: 400; }
+
+/* tabs */
+.md-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 20px 0 16px; border-bottom: 1px solid var(--line); }
+.md-tabs button {
+  border: 0; background: none; padding: 10px 14px; font: inherit; color: var(--mute); cursor: pointer;
+  border-bottom: 3px solid transparent; margin-bottom: -1px;
+}
+.md-tabs button:hover { color: var(--ink); }
+.md-tabs button.on { color: var(--ink); font-weight: 600; border-bottom-color: var(--accent); }
+
+/* analysis */
+.md-h { margin: 0 0 10px; font-size: 16px; }
+.md-insights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-bottom: 22px; }
+.md-insight { border: 1px solid var(--line); border-left: 5px solid var(--info); border-radius: 8px; padding: 10px 14px 12px; background: #fff; }
+.md-insight small { font-size: 12px; font-weight: 600; color: var(--info); }
+.md-insight h4 { margin: 2px 0 4px; font-size: 15px; }
+.md-insight p { margin: 0; color: var(--ink); }
+.md-insight.good { border-left-color: var(--good); } .md-insight.good small { color: var(--good); }
+.md-insight.warn { border-left-color: var(--warn); background: #fffaf2; } .md-insight.warn small { color: var(--warn); }
+
+.md-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.md-box { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.md-box h3 { margin: 0 0 4px; font-size: 15px; }
+.md-sub { color: var(--mute); font-size: 12px; margin: 0 0 10px; }
+
+/* bar list */
+.md-barlist { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 9px; }
+.md-barlist li { display: grid; grid-template-columns: minmax(80px, 1fr) 1.4fr auto; align-items: center; gap: 10px; }
+.md-bl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.md-bar { display: block; height: 9px; background: #e9efec; border-radius: 99px; overflow: hidden; }
+.md-bar b { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+.md-bv { font-variant-numeric: tabular-nums; font-size: 13px; }
+
+/* day chart */
+.md-days { display: flex; align-items: flex-end; gap: 6px; height: 160px; padding-top: 8px; overflow-x: auto; }
+.md-day { flex: 1 0 22px; max-width: 44px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 3px; }
+.md-day span { font-size: 11px; color: var(--mute); }
+.md-day i { display: block; width: 100%; min-height: 3px; background: var(--accent); border-radius: 4px 4px 0 0; }
+.md-day em { font-style: normal; font-size: 11px; color: var(--mute); }
+
+/* tables */
+.md-scroll { overflow-x: auto; }
+.md-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.md-tbl th { text-align: left; font-weight: 600; color: var(--mute); background: var(--soft); padding: 9px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.md-tbl td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-variant-numeric: tabular-nums; }
+.md-tbl td small { display: block; color: var(--mute); font-size: 11px; }
+.md-click { cursor: pointer; }
+.md-click:hover td { background: var(--soft); }
+.md-detail td { background: #fafcfb; padding: 12px 16px; }
+.md-detail h4 { margin: 0 0 6px; font-size: 13px; }
+.md-inner { background: #fff; }
+.md-minutes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.md-minutes p { margin: 0; white-space: pre-wrap; }
+.md-neg { color: var(--bad); }
+
+.md-share { display: flex; align-items: center; gap: 8px; min-width: 110px; }
+.md-share .md-bar { width: 64px; flex: none; }
+
+.md-chip { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 12px; font-weight: 600; background: #e9efec; color: var(--good); }
+.md-chip.warn { background: #fdf0dc; color: var(--warn); }
+.md-chip.bad { background: #fdeceb; color: var(--bad); }
